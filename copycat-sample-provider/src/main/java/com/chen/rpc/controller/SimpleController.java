@@ -1,6 +1,6 @@
 package com.chen.rpc.controller;
 
-import com.chen.rpc.serviceApi.SimpleService;
+import com.chen.rpc.service.SimpleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

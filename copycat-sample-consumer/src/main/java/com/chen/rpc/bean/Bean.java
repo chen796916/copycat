@@ -1,16 +1,20 @@
 package com.chen.rpc.bean;
 
-import com.chen.rpc.annotation.CopycatReferenceAnnotationBeanPostProcessor;
-import com.chen.rpc.annotation.CopycatReferenceAnnotationRegistrar;
+import com.chen.rpc.annotation.CopycatScannerConfigurer;
+import com.chen.rpc.annotation.ProxyFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(CopycatReferenceAnnotationRegistrar.class)
 public class Bean {
 
     @org.springframework.context.annotation.Bean
-    public CopycatReferenceAnnotationBeanPostProcessor setCopycatReferenceAnnotationBeanPostProcessor() {
-        return new CopycatReferenceAnnotationBeanPostProcessor();
+    public ProxyFactory setProxyFactory() {
+        return new ProxyFactory("172.17.0.2:2181");
     }
+
+    @org.springframework.context.annotation.Bean
+    public CopycatScannerConfigurer setCopycatScannerConfigurer() {
+        return new CopycatScannerConfigurer();
+    }
+
 }

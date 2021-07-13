@@ -1,7 +1,7 @@
 package com.chen.rpc.service.impl;
 
 import com.chen.rpc.annotation.copycatService;
-import com.chen.rpc.serviceApi.SimpleService;
+import com.chen.rpc.service.SimpleService;
 
 @copycatService
 public class SimpleServiceImpl implements SimpleService {

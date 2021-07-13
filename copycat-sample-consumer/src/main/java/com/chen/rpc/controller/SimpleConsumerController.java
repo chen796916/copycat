@@ -1,7 +1,7 @@
 package com.chen.rpc.controller;
 
-import com.chen.rpc.annotation.CopycatReference;
-import com.chen.rpc.serviceApi.SimpleService;
+import com.chen.rpc.service.SimpleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +15,7 @@ public class SimpleConsumerController {
     @Value("${zookeeper.address}")
     private String zookeeperAddress;
 
-    @CopycatReference
+    @Autowired
     SimpleService simpleService;
 
     @RequestMapping(value = "/get",method = RequestMethod.GET)
