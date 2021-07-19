@@ -5,13 +5,16 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-@Component
+
 public class CopycatScannerConfigurer implements BeanDefinitionRegistryPostProcessor {
 
-    private String basePackage = "com.chen.rpc.service";
+    private String basePackage;
+
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
+    }
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry beanDefinitionRegistry) throws BeansException {
