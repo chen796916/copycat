@@ -1,6 +1,6 @@
 package com.chen.rpc.nettyServer;
 
-import com.chen.rpc.annotation.copycatService;
+import com.chen.rpc.annotation.CopycatService;
 import com.chen.rpc.register.RegisterService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -14,12 +14,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 public class RpcServer implements ApplicationContextAware, InitializingBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcServer.class);
@@ -55,7 +53,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
      */
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         //获取所有bean，并将bean放入serviceBeanMap中
-        Map<String,Object> map = applicationContext.getBeansWithAnnotation(copycatService.class);
+        Map<String,Object> map = applicationContext.getBeansWithAnnotation(CopycatService.class);
         for(Object bean : map.values()){
             Class<?>[] interfaces =  bean.getClass().getInterfaces();
             for(Class<?> interfaceName : interfaces){

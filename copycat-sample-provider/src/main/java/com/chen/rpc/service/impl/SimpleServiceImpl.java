@@ -1,9 +1,9 @@
 package com.chen.rpc.service.impl;
 
-import com.chen.rpc.annotation.copycatService;
+import com.chen.rpc.annotation.CopycatService;
 import com.chen.rpc.service.SimpleService;
 
-@copycatService
+@CopycatService
 public class SimpleServiceImpl implements SimpleService {
     public int doSomething(int num) {
         System.out.println(num);

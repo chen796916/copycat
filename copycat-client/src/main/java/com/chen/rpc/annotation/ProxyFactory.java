@@ -3,13 +3,11 @@ package com.chen.rpc.annotation;
 import com.chen.rpc.bean.Request;
 import com.chen.rpc.discovery.DiscoveryService;
 import com.chen.rpc.nettyClient.RpcClientHandler;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-@Component
 public class ProxyFactory<T> implements InvocationHandler {
 
     private DiscoveryService discoveryService;

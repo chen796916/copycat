@@ -14,7 +14,6 @@ public class CopycatScanRegistrar implements ImportBeanDefinitionRegistrar {
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
-        System.out.println(annotationMetadata);
         AnnotationAttributes copycatScanAttributes = AnnotationAttributes.fromMap(annotationMetadata.getAnnotationAttributes(CopycatScan.class.getName()));
         String[] basePackage = (String[]) copycatScanAttributes.get("basePackage");
         List<String> basePackageList = Arrays.asList(basePackage);

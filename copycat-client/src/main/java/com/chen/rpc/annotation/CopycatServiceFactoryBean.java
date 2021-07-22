@@ -1,14 +1,13 @@
 package com.chen.rpc.annotation;
 
+import com.chen.rpc.config.ConsumerZookeeperConfig;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Proxy;
 
 public class CopycatServiceFactoryBean<T> implements FactoryBean<T> {
 
-    @Autowired
-    ProxyFactory proxyFactory;
+    private ProxyFactory proxyFactory = new ProxyFactory(ConsumerZookeeperConfig.address);
 
     private Class<T> serviceApiInterface;
 

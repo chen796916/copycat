@@ -8,12 +8,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 注解@ChenRpcService
+ * 注解@CopycatService
  * 通过将此注解放在实现类上，注册实现类的bean
  * @author chen
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface copycatService {
+public @interface CopycatService {
 }
