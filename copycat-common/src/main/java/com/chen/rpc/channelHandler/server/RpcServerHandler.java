@@ -1,9 +1,10 @@
-package com.chen.rpc.nettyServer;
+package com.chen.rpc.channelHandler.server;
 
 import com.alibaba.fastjson.JSONObject;
-import com.chen.rpc.result.ResultCode;
 import com.chen.rpc.bean.Request;
 import com.chen.rpc.bean.Response;
+import com.chen.rpc.constants.Heartbeat;
+import com.chen.rpc.result.ResultCode;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -20,7 +21,9 @@ public class RpcServerHandler extends ChannelInboundHandlerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcServerHandler.class);
 
-    private Map serviceBeanMap;
+    private static Map serviceBeanMap;
+
+    public RpcServerHandler(){}
 
     public RpcServerHandler(Map serviceBeanMap){
         this.serviceBeanMap = serviceBeanMap;
@@ -46,7 +49,7 @@ public class RpcServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         Request request = JSONObject.parseObject(msg.toString(),Request.class);
         //心跳消息，不做处理
-        if("heartbeat".equals(request.getRequestId().toLowerCase())){
+        if(Heartbeat.REQUEST_ID_HEARTBEAT.equals(request.getRequestId().toLowerCase())){
 
         }else{
             Response response = new Response();

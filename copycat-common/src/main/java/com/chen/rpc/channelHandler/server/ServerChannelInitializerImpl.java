@@ -1,5 +1,6 @@
-package com.chen.rpc.nettyServer;
+package com.chen.rpc.channelHandler.server;
 
+import com.chen.rpc.channelHandler.dispather.message.server.ServerMessageChannelHandler;
 import com.chen.rpc.codec.RpcJSONDecoder;
 import com.chen.rpc.codec.RpcJSONEncoder;
 import io.netty.channel.ChannelInitializer;
@@ -10,11 +11,11 @@ import io.netty.handler.timeout.IdleStateHandler;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class ChannelInitializerImpl extends ChannelInitializer<SocketChannel> {
+public class ServerChannelInitializerImpl extends ChannelInitializer<SocketChannel> {
 
     private Map serviceBeanMap;
 
-    public ChannelInitializerImpl(Map serviceBeanMap){
+    public ServerChannelInitializerImpl(Map serviceBeanMap){
         this.serviceBeanMap = serviceBeanMap;
     }
 
@@ -24,6 +25,6 @@ public class ChannelInitializerImpl extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new IdleStateHandler(0,0,60, TimeUnit.SECONDS));
         pipeline.addLast(new RpcJSONDecoder());
         pipeline.addLast(new RpcJSONEncoder());
-        pipeline.addLast(new RpcServerHandler(serviceBeanMap));
+        pipeline.addLast(new ServerMessageChannelHandler(serviceBeanMap));
     }
 }

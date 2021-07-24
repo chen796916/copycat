@@ -1,5 +1,6 @@
-package com.chen.rpc.nettyClient;
+package com.chen.rpc.channelHandler.client;
 
+import com.chen.rpc.channelHandler.dispather.message.client.ClientMessageChannelHandler;
 import com.chen.rpc.codec.RpcJSONDecoder;
 import com.chen.rpc.codec.RpcJSONEncoder;
 import io.netty.channel.ChannelInitializer;
@@ -9,7 +10,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 
 import java.util.concurrent.TimeUnit;
 
-public class ChannelInitializerImpl extends ChannelInitializer<SocketChannel> {
+public class ClientChannelInitializerImpl extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
@@ -17,6 +18,6 @@ public class ChannelInitializerImpl extends ChannelInitializer<SocketChannel> {
         channelPipeline.addLast(new IdleStateHandler(0,0,30, TimeUnit.SECONDS));
         channelPipeline.addLast(new RpcJSONDecoder());
         channelPipeline.addLast(new RpcJSONEncoder());
-        channelPipeline.addLast(new RpcClientHandler());
+        channelPipeline.addLast(new ClientMessageChannelHandler());
     }
 }

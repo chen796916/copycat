@@ -1,8 +1,9 @@
-package com.chen.rpc.nettyClient;
+package com.chen.rpc.channelHandler.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chen.rpc.bean.Request;
 import com.chen.rpc.bean.Response;
+import com.chen.rpc.constants.Heartbeat;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -38,7 +39,7 @@ public class RpcClientHandler extends ChannelInboundHandlerAdapter {
             bootstrap.group(group)
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY,true)
-                    .handler(new ChannelInitializerImpl());
+                    .handler(new ClientChannelInitializerImpl());
             ChannelFuture future = bootstrap.connect(host,port).sync();
             channel = future.channel();
         } catch (InterruptedException e) {
@@ -85,7 +86,7 @@ public class RpcClientHandler extends ChannelInboundHandlerAdapter {
             IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
             if(idleStateEvent.state() == IdleState.ALL_IDLE){
                 Request request = new Request();
-                request.setRequestId("HEARTBEAT");
+                request.setRequestId(Heartbeat.REQUEST_ID_HEARTBEAT);
                 ctx.channel().writeAndFlush(request);
             }else{
                 super.userEventTriggered(ctx, evt);
