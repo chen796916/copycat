@@ -1,11 +1,14 @@
 package com.chen.rpc.bean;
 
+import com.chen.rpc.constants.BeanType;
+
 public class Request {
     private String requestId;
     private String className;
     private String methodName;
     private Class<?>[] parameterTypes;
     private Object[] parameters;
+    private String type = BeanType.REQUEST;
 
     public String getRequestId() {
         return requestId;
@@ -45,5 +48,9 @@ public class Request {
 
     public void setParameters(Object[] parameters) {
         this.parameters = parameters;
+    }
+
+    public String getType() {
+        return type;
     }
 }

@@ -1,10 +1,13 @@
 package com.chen.rpc.bean;
 
+import com.chen.rpc.constants.BeanType;
+
 public class Response {
     private String requestId;
     private int code;
     private Exception exception;
     private Object result;
+    private String type = BeanType.RESPONSE;
 
     public String getRequestId() {
         return requestId;
@@ -36,5 +39,9 @@ public class Response {
 
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    public String getType() {
+        return type;
     }
 }

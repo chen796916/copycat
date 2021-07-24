@@ -1,6 +1,7 @@
 package com.chen.rpc.nettyServer;
 
 import com.chen.rpc.annotation.CopycatService;
+import com.chen.rpc.channelHandler.server.ServerChannelInitializerImpl;
 import com.chen.rpc.register.RegisterService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -87,7 +88,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG,1024)
                     .childOption(ChannelOption.TCP_NODELAY,true)
-                    .childHandler(new ChannelInitializerImpl(serviceBeanMap));
+                    .childHandler(new ServerChannelInitializerImpl(serviceBeanMap));
             String[] addressArray = rpcAddress.split(String.valueOf(':'));
             String host = addressArray[0];
             int port = Integer.parseInt(addressArray[1]);

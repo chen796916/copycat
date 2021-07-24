@@ -1,8 +1,8 @@
 package com.chen.rpc.annotation;
 
 import com.chen.rpc.bean.Request;
+import com.chen.rpc.channelHandler.dispather.message.client.ClientMessageChannelHandler;
 import com.chen.rpc.discovery.DiscoveryService;
-import com.chen.rpc.nettyClient.RpcClientHandler;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -12,7 +12,7 @@ public class ProxyFactory<T> implements InvocationHandler {
 
     private DiscoveryService discoveryService;
     private String zookeeperAddress;
-    private RpcClientHandler rpcClient;
+    private ClientMessageChannelHandler rpcClient;
 
     public ProxyFactory(String zookeeperAddress){
         this.zookeeperAddress = zookeeperAddress;
@@ -33,7 +33,7 @@ public class ProxyFactory<T> implements InvocationHandler {
         String host = serviceAddressArray[0];
         int port = Integer.parseInt(serviceAddressArray[1]);
         if(rpcClient == null){
-            rpcClient = new RpcClientHandler();
+            rpcClient = new ClientMessageChannelHandler();
         }
         rpcClient.doConnect(host,port);
         return rpcClient.send(request).take().getResult();
