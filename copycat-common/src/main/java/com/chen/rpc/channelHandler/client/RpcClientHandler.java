@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.chen.rpc.bean.Request;
 import com.chen.rpc.bean.Response;
 import com.chen.rpc.constants.Heartbeat;
+import com.chen.rpc.loadBalance.LoadBalance;
+import com.chen.rpc.loadBalance.RandomLoadBalance;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,6 +15,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.SynchronousQueue;
 
@@ -22,15 +25,16 @@ public class RpcClientHandler extends ChannelInboundHandlerAdapter {
     private String host;
     private int port;
     private Channel channel;
+    private Map<String, Channel> channels = new ConcurrentHashMap<>();
     private Response response;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcClientHandler.class);
     private static ConcurrentHashMap<String, SynchronousQueue<Response>> queueMap = new ConcurrentHashMap<>();
 
     public void doConnect(String host,int port){
-        if(channel != null){
-            return;
-        }
+        //if(channel != null){
+        //    return;
+        //}
         this.host = host;
         this.port = port;
         try {
@@ -42,6 +46,7 @@ public class RpcClientHandler extends ChannelInboundHandlerAdapter {
                     .handler(new ClientChannelInitializerImpl());
             ChannelFuture future = bootstrap.connect(host,port).sync();
             channel = future.channel();
+            channels.put(String.valueOf(channel.remoteAddress()), channel);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -50,6 +55,8 @@ public class RpcClientHandler extends ChannelInboundHandlerAdapter {
     public SynchronousQueue<Response> send(Request request){
         SynchronousQueue<Response> queue = new SynchronousQueue<>();
         queueMap.put(request.getRequestId(), queue);
+        LoadBalance loadBalance = new RandomLoadBalance();
+        Channel channel = loadBalance.select(channels);
         channel.writeAndFlush(request);
         return queue;
     }

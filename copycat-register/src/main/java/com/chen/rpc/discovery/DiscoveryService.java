@@ -5,6 +5,7 @@ import org.I0Itec.zkclient.ZkClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,5 +42,23 @@ public class DiscoveryService {
         String node = nodeList.get(index);
         String address = servicePath + "/" + node;
         return zkClient.readData(address);
+    }
+
+    public List<String> getAddressList(String serviceName) {
+        String servicePath = PATH + "/" + serviceName;
+        if(!zkClient.exists(servicePath)){
+            LOGGER.error("zookeeper中无此服务");
+        }
+        List<String> nodeList = zkClient.getChildren(servicePath);
+        if(nodeList.isEmpty()){
+            LOGGER.error("zookeeper中无此服务地址");
+        }
+        List<String> addressList = new ArrayList<String>(nodeList.size());
+        for (int i = 0; i < nodeList.size(); i++) {
+            String node = nodeList.get(i);
+            String address = servicePath + "/" + node;
+            addressList.add((String) zkClient.readData(address));
+        }
+        return addressList;
     }
 }

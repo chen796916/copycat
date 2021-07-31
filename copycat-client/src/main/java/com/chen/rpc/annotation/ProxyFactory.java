@@ -6,6 +6,7 @@ import com.chen.rpc.discovery.DiscoveryService;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.UUID;
 
 public class ProxyFactory<T> implements InvocationHandler {
@@ -28,14 +29,17 @@ public class ProxyFactory<T> implements InvocationHandler {
         request.setRequestId(String.valueOf(UUID.randomUUID()));
         request.setParameters(args);
         request.setParameterTypes(method.getParameterTypes());
-        String serviceAddress = discoveryService.getAddress(interfaceClazz.getName());
-        String[] serviceAddressArray = serviceAddress.split(":");
-        String host = serviceAddressArray[0];
-        int port = Integer.parseInt(serviceAddressArray[1]);
+        List<String> addressList = discoveryService.getAddressList(interfaceClazz.getName());
+        // String serviceAddress = discoveryService.getAddress(interfaceClazz.getName());
         if(rpcClient == null){
             rpcClient = new ClientMessageChannelHandler();
+            for (String serviceAddress : addressList) {
+                String[] serviceAddressArray = serviceAddress.split(":");
+                String host = serviceAddressArray[0];
+                int port = Integer.parseInt(serviceAddressArray[1]);
+                rpcClient.doConnect(host,port);
+            }
         }
-        rpcClient.doConnect(host,port);
         return rpcClient.send(request).take().getResult();
     }
 }
