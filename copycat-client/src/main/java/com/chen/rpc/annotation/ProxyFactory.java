@@ -3,10 +3,12 @@ package com.chen.rpc.annotation;
 import com.chen.rpc.bean.Request;
 import com.chen.rpc.channelHandler.dispather.message.client.ClientMessageChannelHandler;
 import com.chen.rpc.discovery.DiscoveryService;
+import io.netty.channel.Channel;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class ProxyFactory<T> implements InvocationHandler {
@@ -33,12 +35,16 @@ public class ProxyFactory<T> implements InvocationHandler {
         // String serviceAddress = discoveryService.getAddress(interfaceClazz.getName());
         if(rpcClient == null){
             rpcClient = new ClientMessageChannelHandler();
-            for (String serviceAddress : addressList) {
-                String[] serviceAddressArray = serviceAddress.split(":");
-                String host = serviceAddressArray[0];
-                int port = Integer.parseInt(serviceAddressArray[1]);
-                rpcClient.doConnect(host,port);
+        }
+        Map<String, Channel> channels = rpcClient.getChannels();
+        for (String serviceAddress : addressList) {
+            if (channels.keySet().contains("/" + serviceAddress)) {
+                continue;
             }
+            String[] serviceAddressArray = serviceAddress.split(":");
+            String host = serviceAddressArray[0];
+            int port = Integer.parseInt(serviceAddressArray[1]);
+            rpcClient.doConnect(host,port);
         }
         return rpcClient.send(request).take().getResult();
     }

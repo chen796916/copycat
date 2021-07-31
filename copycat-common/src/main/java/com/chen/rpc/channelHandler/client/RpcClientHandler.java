@@ -61,6 +61,10 @@ public class RpcClientHandler extends ChannelInboundHandlerAdapter {
         return queue;
     }
 
+    public Map<String, Channel> getChannels() {
+        return channels;
+    }
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         LOGGER.info("与服务端{}连接成功",ctx.channel().remoteAddress());
