@@ -2,7 +2,9 @@ package com.chen.rpc.annotation;
 
 import com.chen.rpc.bean.Request;
 import com.chen.rpc.channelHandler.dispather.message.client.ClientMessageChannelHandler;
+import com.chen.rpc.config.ClusterConfig;
 import com.chen.rpc.discovery.DiscoveryService;
+import com.chen.rpc.util.CommonUtils;
 import io.netty.channel.Channel;
 
 import java.lang.reflect.InvocationHandler;
@@ -31,6 +33,7 @@ public class ProxyFactory<T> implements InvocationHandler {
         request.setRequestId(String.valueOf(UUID.randomUUID()));
         request.setParameters(args);
         request.setParameterTypes(method.getParameterTypes());
+        request.setConfig(CommonUtils.convertToMap(ClusterConfig.class));
         List<String> addressList = discoveryService.getAddressList(interfaceClazz.getName());
         // String serviceAddress = discoveryService.getAddress(interfaceClazz.getName());
         if(rpcClient == null){

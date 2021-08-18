@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 import java.util.Random;
 
-public class RandomLoadBalance extends LoadBalance {
+public class RandomLoadBalance implements LoadBalance {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RandomLoadBalance.class);
 

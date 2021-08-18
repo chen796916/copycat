@@ -3,9 +3,10 @@ package com.chen.rpc.channelHandler.client;
 import com.alibaba.fastjson.JSONObject;
 import com.chen.rpc.bean.Request;
 import com.chen.rpc.bean.Response;
+import com.chen.rpc.constant.ClusterConstant;
 import com.chen.rpc.constants.Heartbeat;
 import com.chen.rpc.loadBalance.LoadBalance;
-import com.chen.rpc.loadBalance.RandomLoadBalance;
+import com.chen.rpc.spi.ExtensionLoader;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -55,7 +56,9 @@ public class RpcClientHandler extends ChannelInboundHandlerAdapter {
     public SynchronousQueue<Response> send(Request request){
         SynchronousQueue<Response> queue = new SynchronousQueue<>();
         queueMap.put(request.getRequestId(), queue);
-        LoadBalance loadBalance = new RandomLoadBalance();
+        Map<String, Object> config = request.getConfig();
+        String loadBalanceConfig = (String) config.get(ClusterConstant.LOAD_BALANCE_CONFIG_NAME);
+        LoadBalance loadBalance = (LoadBalance) ExtensionLoader.getExtensionLoader(LoadBalance.class).getExtension(loadBalanceConfig);
         Channel channel = loadBalance.select(channels);
         channel.writeAndFlush(request);
         return queue;

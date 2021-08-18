@@ -1,10 +1,12 @@
 package com.chen.rpc.loadBalance;
 
+import com.chen.rpc.spi.SPI;
 import io.netty.channel.Channel;
 
 import java.util.Map;
 
-public abstract class LoadBalance {
+@SPI("RandomLoadBalance")
+public interface LoadBalance {
 
-    public abstract Channel select(Map<String, Channel> channels);
+    Channel select(Map<String, Channel> channels);
 }

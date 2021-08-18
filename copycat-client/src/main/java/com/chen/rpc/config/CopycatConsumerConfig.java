@@ -6,4 +6,9 @@ public class CopycatConsumerConfig {
     static class ZookeeperConfiguration{
 
     }
+
+    @ConsumerConfigurationBeanBinding(prefix = "copycat.cluster.", type = ClusterConfig.class)
+    static class ClusterConfiguration{
+
+    }
 }

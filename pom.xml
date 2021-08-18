@@ -26,6 +26,7 @@
         <zkClient.version>0.10</zkClient.version>
         <copycat.version>1.0-SNAPSHOT</copycat.version>
         <fastjson.version>1.2.62</fastjson.version>
+        <junit_jupiter_version>5.6.0</junit_jupiter_version>
     </properties>
 
     <dependencyManagement>
@@ -85,6 +86,18 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit_jupiter_version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${junit_jupiter_version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

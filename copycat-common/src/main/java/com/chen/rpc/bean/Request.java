@@ -2,6 +2,9 @@ package com.chen.rpc.bean;
 
 import com.chen.rpc.constants.BeanType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Request {
     private String requestId;
     private String className;
@@ -9,6 +12,7 @@ public class Request {
     private Class<?>[] parameterTypes;
     private Object[] parameters;
     private String type = BeanType.REQUEST;
+    private Map<String, Object> config = new HashMap<>();
 
     public String getRequestId() {
         return requestId;
@@ -52,5 +56,13 @@ public class Request {
 
     public String getType() {
         return type;
+    }
+
+    public void setConfig(Map<String, Object> config) {
+        this.config = config;
+    }
+
+    public Map<String, Object> getConfig() {
+        return config;
     }
 }
